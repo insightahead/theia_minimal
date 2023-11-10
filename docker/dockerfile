@@ -1,0 +1,38 @@
+# Using the official Ubuntu-based Node.js image
+FROM node
+
+# Update packages and install system dependencies
+RUN apt-get update && apt-get install -y \
+    make \
+    gcc \
+    pkg-config \
+    build-essential \
+    libx11-dev \
+    libxkbfile-dev
+
+# Installer libsecret-1
+RUN apt-get install -y libsecret-1-dev
+
+# Install node-gyp
+RUN yarn global add node-gyp
+
+# Create a working directory
+WORKDIR /home/theia
+
+# Cloning the Theia minimal repository
+RUN git clone https://github.com/insightahead/theia_minimal.git
+
+# Move cloned directory
+WORKDIR /home/theia/theia_minimal
+
+# install all dependencies.
+RUN yarn
+
+# use Theia CLI to build the application
+RUN yarn theia build
+
+# Exposing port 3000
+EXPOSE 3000
+
+# Command to launch Theia
+CMD ["yarn", "start", "--hostname=0.0.0.0"]
