@@ -53,6 +53,7 @@ git clone https://github.com/insightahead/theia_minimal.git
 First, install all dependencies.
 
 ```sh
+cd theia_minimal
 yarn
 ```
 Second, use Theia CLI to build the application.
